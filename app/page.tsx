@@ -21,7 +21,7 @@ const FileViewerPage = async () => {
               {file.children && renderFiles(file.children, depth + 1)}
             </div>
           ) : file.url?.endsWith(".pdf") ? (
-            <div className="mt-2 ml-4">
+            <div className={`mt-2 ${depth > 0 ? "ml-4" : ""}`}>
               <span className="text-green-600">{file.name}</span>
               <iframe
                 src={file.url}
@@ -36,7 +36,7 @@ const FileViewerPage = async () => {
               href={file.url!}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:underline ml-4"
+              className={`text-blue-600 hover:underline ${depth > 0 ? "ml-4" : ""}`}
             >
               📄{file.name}
             </a>
@@ -48,11 +48,8 @@ const FileViewerPage = async () => {
 
   return (
     <div className="font-mono text-sm max-w-3xl mx-auto p-4 bg-gray-100">
-      <Link
-        href={"/"}
-        className="hover:underline"
-      >
-        <h1 className="text-[#2563eb] decoration-[#2563eb] text-2xl font-bold mb-4 text-center">
+      <Link href={"/"} className="hover:underline decoration-[#2563eb]">
+        <h1 className="text-[#2563eb]  text-2xl font-bold mb-4 text-center">
           grive
         </h1>
       </Link>
