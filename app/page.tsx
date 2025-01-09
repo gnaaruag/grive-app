@@ -5,6 +5,9 @@ export const metadata = {
   title: "File Viewer",
 };
 
+// Disable caching for this page
+export const dynamic = "force-dynamic";
+
 const FileViewerPage = async () => {
   const files: FileData[] = await getFilesInRepo();
 
@@ -45,7 +48,14 @@ const FileViewerPage = async () => {
 
   return (
     <div className="font-mono text-sm max-w-3xl mx-auto p-4 bg-gray-100">
-      <Link href={"/"} className="hover:underline"><h1 className="text-[#2563eb] decoration-[#2563eb] text-2xl font-bold mb-4 text-center">grive</h1></Link>
+      <Link
+        href={"/"}
+        className="hover:underline"
+      >
+        <h1 className="text-[#2563eb] decoration-[#2563eb] text-2xl font-bold mb-4 text-center">
+          grive
+        </h1>
+      </Link>
       <div className="bg-white p-4 border border-gray-300">
         {renderFiles(files)}
       </div>
@@ -54,4 +64,3 @@ const FileViewerPage = async () => {
 };
 
 export default FileViewerPage;
-
