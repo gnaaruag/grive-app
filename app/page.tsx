@@ -5,6 +5,7 @@ export const metadata = {
 };
 
 const FileViewerPage = async () => {
+  // Dynamically fetch the latest files
   const files: FileData[] = await getFilesInRepo();
 
   const renderFiles = (fileList: FileData[], depth = 0) => (
