@@ -1,5 +1,7 @@
 import { getFilesInRepo, FileData } from "@/lib/github";
 import Link from "next/link";
+import { cookies } from 'next/headers'
+import { PasswordForm } from '../components/PasswordForm'
 
 export const metadata = {
   title: "File Viewer",
@@ -9,7 +11,8 @@ export const metadata = {
 export const dynamic = "force-dynamic";
 
 const FileViewerPage = async () => {
-  const files: FileData[] = await getFilesInRepo();
+  const isAuthenticated = (await cookies()).get('auth')?.value === 'true'
+  const files: FileData[] = isAuthenticated ? await getFilesInRepo() : []
 
   const renderFiles = (fileList: FileData[], depth = 0) => (
     <ul className={`pl-${depth * 4} list-none m-0`}>
@@ -49,15 +52,20 @@ const FileViewerPage = async () => {
   return (
     <div className="font-mono text-sm max-w-3xl mx-auto p-4 bg-gray-100">
       <Link href={"/"} className="hover:underline decoration-[#2563eb]">
-        <h1 className="text-[#2563eb]  text-2xl font-bold mb-4 text-center">
+        <h1 className="text-[#2563eb] text-2xl font-bold mb-4 text-center">
           grive
         </h1>
       </Link>
       <div className="bg-white p-4 border border-gray-300">
-        {renderFiles(files)}
+        {isAuthenticated ? (
+          renderFiles(files)
+        ) : (
+          <PasswordForm />
+        )}
       </div>
     </div>
   );
 };
 
 export default FileViewerPage;
+
